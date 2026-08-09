@@ -1011,7 +1011,13 @@ function receberGuia(){
   var nome=document.getElementById('pop-nome').value.trim();
   var email=document.getElementById('pop-email').value.trim();
   if(!nome){alert('Por favor, informe seu nome.');return;}
-
+  if(email){
+    fetch('/api/subscribe',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({nome:nome,email:email})
+    }).catch(function(){});
+  }
   var msg=encodeURIComponent('Olá, Dra. Tairiny! Me chamo '+nome+' e quero receber o Guia Gratuito sobre Direito Bancário. Meu e-mail é: '+email);
   setTimeout(function(){window.open('https://wa.me/5561920046994?text='+msg,'_blank');},800);
   fecharPopup();
