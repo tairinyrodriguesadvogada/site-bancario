@@ -670,55 +670,77 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
 
     <!-- CALCULADORA -->
     <div class="calc-card reveal">
-      <p class="calc-title">💰 Calculadora de Recuperação</p>
-      <p class="calc-sub">Estimativa · Direito Bancário</p>
+      <p class="calc-title">&#128176; Analise do seu contrato</p>
+      <p class="calc-sub">Estimativa &middot; Direito Banc&aacute;rio</p>
+
+      <label class="calc-label">Que tipo de desconto voc&ecirc; tem?</label>
+      <select class="calc-input" id="c-tipo">
+        <option value="">Selecione...</option>
+        <option value="consignado">Empr&eacute;stimo consignado (parcelas que acabam)</option>
+        <option value="rmc">Desconto que nunca termina (cart&atilde;o RMC/RCC)</option>
+        <option value="pessoal">Cr&eacute;dito pessoal</option>
+        <option value="financiamento">Financiamento de ve&iacute;culo</option>
+        <option value="imovel">Financiamento imobili&aacute;rio</option>
+        <option value="cartao">Cart&atilde;o de cr&eacute;dito</option>
+      </select>
+
       <div class="calc-row">
         <div>
-          <label class="calc-label">Tipo de Contrato</label>
-          <select class="calc-input" id="c-tipo">
-            <option value="">Selecione...</option>
-            <option value="consignado">Empréstimo Consignado</option>
-            <option value="pessoal">Crédito Pessoal</option>
-            <option value="financiamento">Financiamento de Veículo</option>
-            <option value="imovel">Financiamento Imobiliário</option>
-            <option value="cartao">Cartão de Crédito</option>
-            <option value="rmc">Cartão RMC/RCC</option>
-          </select>
-        </div>
-        <div>
-          <label class="calc-label">Valor da Parcela (R$)</label>
+          <label class="calc-label">Valor descontado por m&ecirc;s (R$)</label>
           <input class="calc-input" type="number" id="c-parcela" placeholder="Ex: 850" min="0">
         </div>
-      </div>
-      <div class="calc-row">
         <div>
-          <label class="calc-label">Taxa Contratada (% ao mês)</label>
-          <input class="calc-input" type="number" id="c-taxa" placeholder="Ex: 4.5" step="0.1" min="0">
-        </div>
-        <div>
-          <label class="calc-label">Meses Pagos</label>
+          <label class="calc-label">H&aacute; quantos meses?</label>
           <input class="calc-input" type="number" id="c-meses" placeholder="Ex: 24" min="1">
         </div>
       </div>
-      <button class="calc-btn" onclick="calcBancario()">💰 Calcular quanto posso recuperar</button>
+
+      <label class="calc-label">Voc&ecirc; reconhece ter contratado?</label>
+      <select class="calc-input" id="c-reconhece">
+        <option value="sim">Sim, contratei e sabia o que era</option>
+        <option value="pensei">Contratei, mas achei que era outra coisa</option>
+        <option value="nao">N&atilde;o reconhe&ccedil;o esse contrato</option>
+      </select>
+      <p style="font-size:12px;color:rgba(255,255,255,0.5);margin:-6px 0 12px;line-height:1.5">Muita gente assina cart&atilde;o consignado achando que &eacute; empr&eacute;stimo comum.</p>
+
+      <div class="calc-row">
+        <div>
+          <label class="calc-label">Sua renda mensal (R$)</label>
+          <input class="calc-input" type="number" id="c-renda" placeholder="Ex: 2500" min="0">
+        </div>
+        <div>
+          <label class="calc-label">Taxa ao m&ecirc;s (%) &mdash; se souber</label>
+          <input class="calc-input" type="number" id="c-taxa" placeholder="opcional" step="0.1" min="0">
+        </div>
+      </div>
+
+      <label class="calc-label">Cobraram alguma dessas coisas?</label>
+      <select class="calc-input" id="c-extras">
+        <option value="nao">N&atilde;o / n&atilde;o sei</option>
+        <option value="seguro">Seguro que eu n&atilde;o pude recusar</option>
+        <option value="tarifa">Tarifas de cadastro ou servi&ccedil;os</option>
+        <option value="ambos">Os dois</option>
+      </select>
+
+      <button class="calc-btn" onclick="calcBancario()">&#128269; Analisar meu contrato</button>
 
       <div class="calc-result" id="calc-result">
         <div class="res-destaque">
-          <div class="res-label">Estimativa de recuperação</div>
+          <div class="res-label">O que encontramos no seu caso</div>
           <div class="res-regra" id="r-tipo">—</div>
           <div class="res-tempo" id="r-valor">—</div>
           <div class="res-data" id="r-economia">—</div>
         </div>
         <div class="res-grid">
           <div class="res-item">
-            <div class="res-item-label">Total pago</div>
+            <div class="res-item-label">Total descontado</div>
             <div class="res-item-val" id="r-total">—</div>
-            <div class="res-item-sub">no período</div>
+            <div class="res-item-sub">descontado até aqui</div>
           </div>
           <div class="res-item">
-            <div class="res-item-label">Taxa abusiva estimada</div>
+            <div class="res-item-label">Pontos a questionar</div>
             <div class="res-item-val" id="r-taxa-exc">—</div>
-            <div class="res-item-sub">acima do legal</div>
+            <div class="res-item-sub">identificados</div>
           </div>
         </div>
         <div id="banc-prio-badge" style="display:none;margin-top:12px;padding:12px 18px;background:linear-gradient(135deg,#7B2400,#C0392B);border-radius:8px;text-align:center">
@@ -726,7 +748,7 @@ j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
   <p style="color:rgba(255,255,255,0.8);font-size:11px;margin:4px 0 0">Estimativa acima de R$ 5.000 · Atendimento prioritário</p>
 </div>
 <a href="#" id="r-wa" class="res-cta" target="_blank">💬 Quero análise completa com a Dra. Tairiny</a>
-        <p class="res-disclaimer">⚠️ Estimativa baseada na jurisprudência do STJ e tabelas BACEN. Não substitui análise jurídica individual.</p>
+        <p class="res-disclaimer">⚠️ Estimativa preliminar, <strong>não é cálculo judicial</strong>. O valor real depende da análise do contrato, do extrato e da memória de cálculo. Instituição financeira não se sujeita a teto de juros (Súmula 596/STF) — o ganho costuma vir do afastamento de encargos indevidos, não da redução da taxa.</p>
         <button class="res-reset" onclick="resetCalc()">↩ Nova simulação</button>
       </div>
     </div>
@@ -1074,62 +1096,160 @@ window.addEventListener('scroll',checkReveal,{passive:true});
 window.addEventListener('load',checkReveal);
 
 // CALCULADORA BANCÁRIA
-var taxasLegais={consignado:1.80,pessoal:3.50,financiamento:1.49,imovel:0.70,cartao:8.00,rmc:2.00};
-var nomesTipo={consignado:'Consignado',pessoal:'Crédito Pessoal',financiamento:'Financ. Veículo',imovel:'Financ. Imobiliário',cartao:'Cartão de Crédito',rmc:'Cartão RMC/RCC'};
+
+
 
 function calcBancario(){
-  var tipo=document.getElementById('c-tipo').value;
-  var parcela=parseFloat(document.getElementById('c-parcela').value)||0;
-  var taxa=parseFloat(document.getElementById('c-taxa').value)||0;
-  var meses=parseInt(document.getElementById('c-meses').value)||0;
-  if(!tipo||!parcela||!taxa||!meses){alert('Preencha todos os campos!');return;}
+  var tipo   = document.getElementById('c-tipo').value;
+  var parc   = parseFloat(document.getElementById('c-parcela').value)||0;
+  var meses  = parseInt(document.getElementById('c-meses').value)||0;
+  var rec    = document.getElementById('c-reconhece').value;
+  var renda  = parseFloat(document.getElementById('c-renda').value)||0;
+  var taxa   = parseFloat(document.getElementById('c-taxa').value)||0;
+  var extras = document.getElementById('c-extras').value;
 
-  var taxaLegal=taxasLegais[tipo]||2.0;
-  var totalPago=parcela*meses;
-  var excessoMensal=0;
+  if(!tipo||!parc||!meses){alert('Preencha o tipo de contrato, o valor descontado e há quantos meses.');return;}
 
-  if(taxa>taxaLegal){
-    // Calcular diferença entre taxa contratada e legal
-    var parcelaLegal=parcela*(taxaLegal/taxa);
-    excessoMensal=parcela-parcelaLegal;
+  var fmt=function(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});};
+  var totalPago = parc*meses;
+  var mesesInd  = Math.min(meses,120);      /* indebito: recorte conservador */
+  var achados=[], recMin=0, recMax=0, prio=0;
+
+  /* ── TESE ALTA 1 — contrato nao reconhecido (fraude) ──
+     Inexistencia do debito + devolucao EM DOBRO (art. 42, par. unico, CDC) + dano moral. */
+  if(rec==='nao'){
+    var dobro = parc*mesesInd*2;
+    achados.push({t:'Contrato não reconhecido',
+      d:'Você não reconhece a contratação. Sem contrato válido, cabe declarar a inexistência da dívida, '
+       +'devolver <strong>em dobro</strong> o que foi descontado (art. 42, § único, do CDC) e pedir dano moral.',
+      v:fmt(dobro)+' + dano moral'});
+    recMin+=dobro+3000; recMax+=dobro+10000; prio+=45;
   }
 
-  var valorRecuperar=excessoMensal*meses*1.4; // + juros retroativos estimados
-  var economiaMensal=excessoMensal;
-  var excessoPerc=Math.max(0,taxa-taxaLegal).toFixed(2);
-
-  var fmt=function(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})};
-
-  document.getElementById('r-tipo').textContent='📋 '+nomesTipo[tipo];
-  document.getElementById('r-valor').textContent=valorRecuperar>0?fmt(valorRecuperar):'Taxa dentro do limite';
-  document.getElementById('r-economia').textContent=valorRecuperar>0?'💡 Economia mensal estimada: '+fmt(economiaMensal):'Sua taxa está dentro do limite legal para este tipo de contrato';
-  document.getElementById('r-total').textContent=fmt(totalPago);
-  document.getElementById('r-taxa-exc').textContent=excessoPerc>0?'+'+excessoPerc+'% a.m.':'Dentro do limite';
-
-  var msg=encodeURIComponent('Olá, Dra. Tairiny! Fiz a simulação e tenho um '+nomesTipo[tipo]+' com taxa de '+taxa+'% a.m. Paguei '+meses+' parcelas de R$ '+parcela+'. Estimativa de recuperação: '+fmt(valorRecuperar)+'. Quero uma análise completa!');
-  // Redirecionamento por potencial R$5k
-  var _isPrioBanc = (valorRecuperar >= 5000);
-  if (_isPrioBanc) {
-    msg = encodeURIComponent(decodeURIComponent(msg) + '\n\n🔥 *CASO PRIORITÁRIO* — Estimativa acima de R$ 5.000. Solicito atendimento urgente!');
-    var _bp = document.getElementById('banc-prio-badge');
-    if (_bp) _bp.style.display = 'block';
+  /* ── TESE ALTA 2 — RMC vendido como emprestimo ──
+     Vicio de informacao (CDC 6º III, 30, 37) -> reenquadramento + recalculo. */
+  if(tipo==='rmc' || rec==='pensei'){
+    achados.push({t:'Cartão consignado (RMC) vendido como empréstimo',
+      d:'É a armadilha mais comum: o desconto nunca termina porque é dívida rotativa, não empréstimo. '
+       +'Cabe reenquadrar como empréstimo pessoal e refazer a conta — costuma zerar ou reduzir muito o saldo.',
+      v:'reenquadramento + recálculo'});
+    recMin+=parc*mesesInd*0.35; recMax+=parc*mesesInd*0.80; prio+=40;
   }
-  document.getElementById('r-wa').href='https://wa.me/5561920046994?text='+msg;
+
+  /* ── TESE ALTA 3 — margem consignavel estourada ── */
+  if(renda>0 && (tipo==='consignado'||tipo==='rmc')){
+    var pct = parc/renda*100;
+    if(pct>35){
+      achados.push({t:'Desconto compromete '+pct.toFixed(0)+'% da sua renda',
+        d:'O consignado tem limite de comprometimento da renda. O que passa da margem é redutível, '
+         +'e o comprometimento do mínimo existencial sustenta pedido de urgência para suspender os descontos.',
+        v:'redução do excedente'});
+      recMin+=parc*0.15*mesesInd; recMax+=parc*0.30*mesesInd; prio+=25;
+    }
+  }
+
+  /* ── TESE ALTA 4 — seguro imposto (Tema 972) e tarifas (Tema 618) ── */
+  if(extras!=='nao'){
+    var qual = extras==='seguro' ? 'Seguro embutido sem livre escolha'
+             : (extras==='tarifa' ? 'Tarifas de cadastro e serviços' : 'Seguro imposto e tarifas');
+    achados.push({t:qual,
+      d:'Seguro imposto sem livre escolha da seguradora é venda casada (Tema 972/STJ). Tarifas vedadas '
+       +'após 30/04/2008 são expurgáveis (Tema 618/STJ). Ambos geram devolução do que foi cobrado.',
+      v:'expurgo + devolução'});
+    recMin+=totalPago*0.02; recMax+=totalPago*0.06; prio+=15;
+  }
+
+  /* ── SUBSIDIARIA — juros vs media de mercado (Tema 28/STJ) ──
+     Nunca eixo: Sumula 596/STF afasta teto para instituicao financeira. */
+  if(taxa>0){
+    var ref={consignado:1.80,pessoal:3.50,financiamento:1.49,imovel:0.70,cartao:8.00,rmc:3.00}[tipo]||2.5;
+    if(taxa > ref*1.5){
+      achados.push({t:'Taxa bem acima da média de mercado',
+        d:'Sua taxa está mais de 50% acima da média praticada nessa modalidade. Isso <em>sozinho</em> não '
+         +'garante revisão — a Súmula 596/STF afasta teto de juros para bancos — mas reforça o conjunto '
+         +'e entra como pedido subsidiário (Tema 28/STJ).',
+        v:taxa.toFixed(2)+'% a.m. · média ~'+ref.toFixed(2)+'%'});
+      prio+=10;
+      /* Se houver taxa, calcula o excesso pela amortizacao REAL (Price), nao por proporcao. */
+      var i1=taxa/100, i2=ref/100;
+      var principal = i1===0 ? parc*meses : parc*(1-Math.pow(1+i1,-meses))/i1;
+      var parcRef   = i2===0 ? principal/meses : principal*i2/(1-Math.pow(1+i2,-meses));
+      var exc = Math.max(0,(parc-parcRef)*meses);
+      recMin+=exc*0.4; recMax+=exc*0.8;
+    }
+  }
+
+  if(!achados.length){
+    achados.push({t:'Nenhum ponto crítico identificado pelos dados informados',
+      d:'Isso não significa que não haja o que questionar — a análise do contrato e do extrato '
+       +'costuma revelar cobranças que não aparecem numa simulação. Vale uma conferência.',
+      v:'—'});
+  }
+
+  /* ── Exibicao ── */
+  var principalTxt = achados[0].t;
+  document.getElementById('r-tipo').textContent = '📋 '+principalTxt;
+  document.getElementById('r-valor').textContent =
+    (recMin>0) ? (fmt(recMin)+' a '+fmt(recMax)) : 'Depende da análise do contrato';
+  document.getElementById('r-economia').textContent =
+    (recMin>0) ? '💡 Faixa estimada do que pode ser discutido' : '';
+  document.getElementById('r-total').textContent = fmt(totalPago);
+  document.getElementById('r-taxa-exc').textContent = achados.length+(achados.length>1?' pontos':' ponto');
+
+  var html='';
+  achados.forEach(function(a){
+    html+='<div style="text-align:left;border-left:3px solid #C9A84C;padding:12px 16px;margin-bottom:10px;'
+        +'background:rgba(255,255,255,0.04);border-radius:0 6px 6px 0">'
+        +'<p style="font-size:14px;font-weight:700;color:#C9A84C;margin:0 0 6px">'+a.t+'</p>'
+        +'<p style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.75);margin:0 0 6px">'+a.d+'</p>'
+        +'<p style="font-size:12px;color:rgba(255,255,255,0.55);margin:0"><strong>'+a.v+'</strong></p></div>';
+  });
+  var cx=document.getElementById('r-achados');
+  if(!cx){
+    cx=document.createElement('div'); cx.id='r-achados'; cx.style.marginTop='16px';
+    var grid=document.querySelector('#calc-result .res-grid');
+    if(grid&&grid.parentNode) grid.parentNode.insertBefore(cx,grid.nextSibling);
+  }
+  cx.innerHTML=html;
+
+  var bp=document.getElementById('banc-prio-badge');
+  if(bp) bp.style.display = (prio>=40)?'block':'none';
+
+  var lin=['Olá, Dra. Tairiny! Analisei meu contrato no site.','',
+    '• Desconto: '+fmt(parc)+' por mês, há '+meses+' meses',
+    '• Total descontado: '+fmt(totalPago)];
+  if(renda>0) lin.push('• Minha renda: '+fmt(renda));
+  if(rec==='nao') lin.push('• NÃO reconheço esse contrato');
+  if(rec==='pensei') lin.push('• Achei que estava contratando outra coisa');
+  lin.push('');
+  lin.push('Pontos encontrados:');
+  achados.forEach(function(a){ lin.push('- '+a.t); });
+  lin.push('');
+  lin.push((prio>=40?'[PRIORITARIO] ':'')+'Gostaria de uma análise dos meus documentos.');
+  var wa='https://wa.me/5561920046994?text='+encodeURIComponent(lin.join('\n'));
+
+  document.getElementById('r-wa').href=wa;
   document.getElementById('calc-result').style.display='block';
 
-  // Modal
-  document.getElementById('mr-valor').textContent=valorRecuperar>0?fmt(valorRecuperar):'Taxa regular';
-  document.getElementById('mr-economia').textContent=valorRecuperar>0?'Economia mensal: '+fmt(economiaMensal):'';
-  document.getElementById('mr-total').textContent=fmt(totalPago);
-  document.getElementById('mr-tipo').textContent=nomesTipo[tipo];
-  document.getElementById('mr-wa').href='https://wa.me/5561920046994?text='+msg;
-  document.getElementById('modalRes').classList.add('show');
-  document.body.style.overflow='hidden';
+  var mv=document.getElementById('mr-valor');
+  if(mv){
+    mv.textContent=(recMin>0)?(fmt(recMin)+' a '+fmt(recMax)):'Depende da análise';
+    var me=document.getElementById('mr-economia'); if(me) me.textContent=principalTxt;
+    var mt=document.getElementById('mr-total');    if(mt) mt.textContent=fmt(totalPago);
+    var mtp=document.getElementById('mr-tipo');    if(mtp) mtp.textContent=achados.length+' ponto(s) a questionar';
+    var mw=document.getElementById('mr-wa');       if(mw) mw.href=wa;
+    document.getElementById('modalRes').classList.add('show');
+    document.body.style.overflow='hidden';
+  }
 }
-
 function resetCalc(){
   document.getElementById('calc-result').style.display='none';
-  ['c-tipo','c-parcela','c-taxa','c-meses'].forEach(function(id){document.getElementById(id).value='';});
+  ['c-tipo','c-parcela','c-meses','c-renda','c-taxa'].forEach(function(id){
+    var e=document.getElementById(id); if(e) e.value='';
+  });
+  document.getElementById('c-reconhece').value='sim';
+  document.getElementById('c-extras').value='nao';
+  var a=document.getElementById('r-achados'); if(a) a.innerHTML='';
 }
 function fecharModalRes(){
   document.getElementById('modalRes').classList.remove('show');
